@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Power Bike | Repuestos</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --rojo: #E31D2B;
+            --negro: #0a0a0a;
+            --gris: #1a1a1a;
+        }
+        body {
+            background-color: var(--negro);
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        header {
+            background: black;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--rojo);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo img { height: 60px; }
+        .acceso-mayorista {
+            display: flex;
+            gap: 10px;
+        }
+        input {
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background: var(--rojo);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .catalogo {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .card {
+            background: var(--gris);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        .card img { width: 100%; border-radius: 8px; }
+        .precio {
+            font-size: 1.4rem;
+            color: var(--rojo);
+            margin: 10px 0;
+        }
+        .tag-mayorista {
+            background: #4ade80;
+            color: black;
+            font-size: 0.7rem;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Indian Power Bike">
+        </div>
+        <div class="acceso-mayorista">
+            <input type="password" id="pinInput" placeholder="PIN Mayorista">
+            <button onclick="verificarPIN()">Acceso</button>
+        </div>
+    </header>
+
+    <h2 style="text-align: center; margin-top: 20px;">NUESTRO CATÁLOGO</h2>
+    
+    <div class="catalogo" id="lista-productos">
+        </div>
+
+    <script>
+        // CONFIGURACIÓN DE TU SUPABASE
+        const SUPABASE_URL = 'https://TU_PROYECTO.supabase.co';
+        const SUPABASE_KEY = 'TU_LLAVE_ANON_KEY';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let esMayorista = false;
+
+        // Función para cargar productos
+        async function cargarProductos() {
+            const { data, error } = await _supabase.from('productos').select('*');
+            if (error) console.log(error);
+
+            const contenedor = document.getElementById('lista-productos');
+            contenedor.innerHTML = '';
+
+            data.forEach(prod => {
+                const precioMostrar = esMayorista ? prod.precio_mayorista : prod.precio_letal;
+                contenedor.innerHTML += `
+                    <div class="card">
+                        <img src="${prod.imagen_url}" alt="${prod.nombre}">
+                        <h3>${prod.nombre}</h3>
+                        <p class="precio">$${precioMostrar.toLocaleString()} 
+                            ${esMayorista ? '<span class="tag-mayorista">MAYORISTA</span>' : ''}
+                        </p>
+                        <button onclick="agregarAlCarrito('${prod.nombre}', ${precioMostrar})">Pedir por WhatsApp</button>
+                    </div>
+                `;
+            });
+        }
+
+        // Función para validar el PIN
+        async function verificarPIN() {
+            const pin = document.getElementById('pinInput').value;
+            const { data } = await _supabase.from('acceso_mayoristas').select('*').eq('pin', pin);
+
+            if (data && data.length > 0) {
+                esMayorista = true;
+                alert("¡Bienvenido, Distribuidor " + data[0].nombre_cliente + "!");
+                cargarProductos();
+            } else {
+                alert("PIN incorrecto");
+            }
+        }
+
+        // Función básica de WhatsApp
+        function agregarAlCarrito(nombre, precio) {
+            const tel = "573000000000"; // TU NÚMERO
+            const msg = `Hola Indian Power Bike, me interesa el producto: ${nombre} con precio: $${precio}`;
+            window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`);
+        }
+
+        cargarProductos();
+    </script>
+</body>
+</html>
