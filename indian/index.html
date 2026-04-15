@@ -25,127 +25,133 @@
             overflow-x: hidden;
         }
 
-        /* HEADER RESPONSIVO */
+        /* HEADER OPTIMIZADO */
         header {
             background: black;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 15px 20px;
             border-bottom: 3px solid var(--rojo);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
-        .logo img { height: 45px; }
-        .acceso-mayorista { display: flex; gap: 5px; }
-        input { padding: 8px; border-radius: 5px; border: none; outline: none; width: 100px; font-size: 0.9rem; }
-        button {
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Logo más grande y encuadrado */
+        .logo img { 
+            height: 70px; /* Aumentado para mayor impacto */
+            display: block;
+        }
+
+        /* Buscador Central */
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 25px; /* Estilo moderno redondeado */
+            border: 1px solid #333;
+            background: #111;
+            color: white;
+            outline: none;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        .search-container input:focus {
+            border-color: var(--rojo);
+            box-shadow: 0 0 8px rgba(227, 29, 43, 0.3);
+        }
+
+        /* Acceso Mayorista */
+        .acceso-mayorista { display: flex; gap: 8px; }
+        .pin-input { 
+            padding: 10px; 
+            border-radius: 5px; 
+            border: none; 
+            width: 80px; 
+            text-align: center;
+        }
+        .btn-rojo {
             background: var(--rojo);
             color: white;
             border: none;
-            padding: 8px 12px;
+            padding: 10px 18px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 0.9rem;
+            transition: 0.3s;
         }
+        .btn-rojo:hover { background: #b31620; }
 
-        /* BANNER DINÁMICO */
-        .hero-swiper { 
-            width: 100%; 
-            height: auto; 
-            aspect-ratio: 16 / 6; /* Proporción ideal para PC */
-            margin-bottom: 20px; 
-        }
-        .hero-swiper img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            object-position: center;
-        }
+        /* BANNER */
+        .hero-swiper { width: 100%; height: auto; aspect-ratio: 16 / 6; margin-bottom: 20px; }
+        .hero-swiper img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* CATEGORIAS */
+        /* CATALOGO */
         .categorias-section { padding: 15px; }
         .titulo-seccion { 
             color: var(--rojo); 
             border-left: 5px solid var(--rojo); 
             padding-left: 10px; 
-            margin-bottom: 15px; 
+            margin: 20px; 
             text-transform: uppercase;
-            font-size: 1.1rem;
         }
-        .grid-categorias {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-        }
-        .cat-card {
-            background: var(--gris);
-            border-radius: 10px;
-            padding: 12px 5px;
-            text-align: center;
-            cursor: pointer;
-            border: 1px solid #333;
-            transition: 0.3s;
-        }
-        .cat-card img { width: 35px; margin-bottom: 8px; filter: invert(1); }
-        .cat-card span { display: block; font-weight: bold; font-size: 0.75rem; }
-
-        /* CATALOGO RESPONSIVO */
         .catalogo {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 productos por fila en móvil */
-            gap: 12px;
-            padding: 12px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 15px;
         }
-        .card {
-            background: var(--gris);
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #222;
-        }
-        .card img { 
-            width: 100%; 
-            aspect-ratio: 1/1; 
-            border-radius: 8px; 
-            object-fit: cover; 
-            margin-bottom: 8px;
-        }
-        .card h4 { font-size: 0.9rem; margin: 5px 0; min-height: 35px; }
-        .precio { font-size: 1.1rem; color: var(--rojo); font-weight: bold; margin: 5px 0; }
-        .tag-mayorista {
-            background: #4ade80; color: black; font-size: 0.55rem;
-            padding: 2px 5px; border-radius: 3px; display: inline-block;
+        .card { background: var(--gris); border-radius: 12px; padding: 12px; text-align: center; border: 1px solid #222; }
+        .card img { width: 100%; aspect-ratio: 1/1; border-radius: 8px; object-fit: cover; }
+        .precio { font-size: 1.2rem; color: var(--rojo); font-weight: bold; margin: 8px 0; }
+
+        /* RESPONSIVO MÓVIL */
+        @media (max-width: 768px) {
+            .header-container {
+                grid-template-columns: 1fr auto;
+                gap: 10px;
+            }
+            .logo img { height: 50px; }
+            .search-container {
+                grid-column: 1 / -1; /* El buscador pasa abajo en móvil */
+                order: 3;
+            }
+            .acceso-mayorista { order: 2; }
         }
 
-        /* AJUSTES PARA PC (Pantallas grandes) */
-        @media (min-width: 768px) {
-            .logo img { height: 60px; }
-            input { width: 150px; }
-            .hero-swiper { aspect-ratio: 21 / 7; } /* Más alargado en PC */
-            .grid-categorias { grid-template-columns: repeat(5, 1fr); }
-            .catalogo { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; padding: 20px; }
-            .card h4 { font-size: 1.1rem; }
-            .precio { font-size: 1.4rem; }
-        }
-
-        /* AJUSTE PARA MÓVIL PEQUEÑO */
-        @media (max-width: 480px) {
-            header { padding: 10px; }
-            .hero-swiper { aspect-ratio: 4 / 3; height: 250px; } /* Más alto en móvil para que luzca el banner */
-            .acceso-mayorista button { padding: 8px; font-size: 0.8rem; }
+        @media (min-width: 992px) {
+            .catalogo { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); padding: 20px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo"><img src="logo.png" alt="Indian Power Bike"></div>
-        <div class="acceso-mayorista">
-            <input type="password" id="pinInput" placeholder="PIN">
-            <button onclick="verificarPIN()">Entrar</button>
+        <div class="header-container">
+            <div class="logo">
+                <img src="logo.png" alt="Indian Power Bike">
+            </div>
+
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="¿Qué repuesto buscas?" onkeyup="buscarProducto()">
+            </div>
+
+            <div class="acceso-mayorista">
+                <input type="password" id="pinInput" class="pin-input" placeholder="PIN">
+                <button class="btn-rojo" onclick="verificarPIN()">Entrar</button>
+            </div>
         </div>
     </header>
 
@@ -157,43 +163,17 @@
         <div class="swiper-pagination"></div>
     </div>
 
-    <section class="categorias-section">
-        <h3 class="titulo-seccion">Ofertas sólo para ti</h3>
-        <div class="grid-categorias">
-            <div class="cat-card" onclick="filtrarCategoria('Baterias')">
-                <img src="https://cdn-icons-png.flaticon.com/512/2083/2083161.png" alt="Baterías">
-                <span>BATERÍAS</span>
-            </div>
-            <div class="cat-card" onclick="filtrarCategoria('Frenos')">
-                <img src="https://cdn-icons-png.flaticon.com/512/1533/1533166.png" alt="Frenos">
-                <span>FRENOS</span>
-            </div>
-            <div class="cat-card" onclick="filtrarCategoria('Cilindros')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3063/3063383.png" alt="Cilindros">
-                <span>CILINDROS</span>
-            </div>
-            <div class="cat-card" onclick="filtrarCategoria('Llantas')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3714/3714324.png" alt="Llantas">
-                <span>LLANTAS</span>
-            </div>
-            <div class="cat-card" onclick="cargarProductos()">
-                <img src="https://cdn-icons-png.flaticon.com/512/5110/5110785.png" alt="Todos">
-                <span>TODO</span>
-            </div>
-        </div>
-    </section>
-
-    <h3 class="titulo-seccion" style="margin-left: 20px;">Catálogo</h3>
+    <h3 class="titulo-seccion" id="titulo-catalogo">Catálogo de Repuestos</h3>
     <div class="catalogo" id="lista-productos">
         </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // CONFIGURACIÓN SUPABASE (No olvides poner tus llaves reales aquí)
         const SUPABASE_URL = 'https://TU_PROYECTO.supabase.co';
         const SUPABASE_KEY = 'TU_LLAVE_ANON_KEY';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        let todosLosProductos = []; // Guardamos la lista completa para buscar rápido
         let esMayorista = false;
 
         const swiper = new Swiper('.hero-swiper', {
@@ -202,7 +182,30 @@
             pagination: { el: '.swiper-pagination', clickable: true },
         });
 
-        async function renderizarHtml(data) {
+        // Cargar productos inicialmente
+        async function cargarProductos() {
+            const { data, error } = await _supabase.from('productos').select('*');
+            if (data) {
+                todosLosProductos = data;
+                renderizarHtml(todosLosProductos);
+            }
+        }
+
+        // Función de Búsqueda
+        function buscarProducto() {
+            const termino = document.getElementById('searchInput').value.toLowerCase();
+            const filtrados = todosLosProductos.filter(p => 
+                p.nombre.toLowerCase().includes(termino) || 
+                p.categoria.toLowerCase().includes(termino)
+            );
+            renderizarHtml(filtrados);
+            
+            // Cambiar título si no hay resultados
+            const titulo = document.getElementById('titulo-catalogo');
+            titulo.innerText = filtrados.length > 0 ? "Catálogo de Repuestos" : "No se encontraron resultados";
+        }
+
+        function renderizarHtml(data) {
             const contenedor = document.getElementById('lista-productos');
             contenedor.innerHTML = '';
             data.forEach(prod => {
@@ -211,21 +214,11 @@
                     <div class="card">
                         <img src="${prod.imagen_url}" alt="${prod.nombre}">
                         <h4>${prod.nombre}</h4>
-                        <p class="precio">$${precio.toLocaleString()} ${esMayorista ? '<br><span class="tag-mayorista">MAYORISTA</span>' : ''}</p>
-                        <button style="width:100%; font-size:0.8rem;" onclick="agregarAlCarrito('${prod.nombre}', ${precio})">WhatsApp</button>
+                        <p class="precio">$${precio.toLocaleString()}</p>
+                        <button class="btn-rojo" style="width:100%;" onclick="agregarAlCarrito('${prod.nombre}', ${precio})">Pedir</button>
                     </div>
                 `;
             });
-        }
-
-        async function cargarProductos() {
-            const { data } = await _supabase.from('productos').select('*');
-            renderizarHtml(data);
-        }
-
-        async function filtrarCategoria(cat) {
-            const { data } = await _supabase.from('productos').select('*').eq('categoria', cat);
-            renderizarHtml(data);
         }
 
         async function verificarPIN() {
@@ -233,14 +226,14 @@
             const { data } = await _supabase.from('acceso_mayoristas').select('*').eq('pin', pin);
             if (data && data.length > 0) {
                 esMayorista = true;
-                alert("Acceso Mayorista: " + data[0].nombre_cliente);
-                cargarProductos();
-            } else { alert("PIN Inválido"); }
+                alert("Bienvenido Mayorista: " + data[0].nombre_cliente);
+                renderizarHtml(todosLosProductos);
+            } else { alert("PIN Incorrecto"); }
         }
 
         function agregarAlCarrito(nombre, precio) {
-            const tel = "573000000000"; // Tu número aquí
-            const msg = `Hola Indian! Me interesa: ${nombre} ($${precio.toLocaleString()})`;
+            const tel = "573000000000"; // Tu WhatsApp
+            const msg = `Hola Indian Power Bike! Me interesa: ${nombre} ($${precio.toLocaleString()})`;
             window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`);
         }
 
