@@ -33,19 +33,17 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 3px solid var(--rojo);
-            position: relative; /* Cambiado de sticky a relative para que suba con el scroll */
+            position: relative;
             gap: 20px;
             flex-wrap: wrap;
         }
 
-        /* Logo a la izquierda con tamaño destacado */
         .logo img { 
             height: 90px; 
             transition: 0.3s;
             display: block;
         }
 
-        /* Buscador en el centro */
         .search-container {
             flex: 1;
             max-width: 500px;
@@ -64,7 +62,6 @@
         }
         .search-container input:focus { border-color: var(--rojo); }
 
-        /* Acceso Mayorista a la derecha */
         .acceso-mayorista { 
             display: flex; 
             flex-direction: column; 
@@ -122,7 +119,7 @@
         .cat-card img { width: 40px; margin-bottom: 10px; filter: invert(1); }
         .cat-card span { display: block; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; }
 
-        /* CATALOGO */
+        /* CATALOGO Y TARJETAS DETALLADAS */
         .titulo-seccion { 
             color: var(--rojo); 
             border-left: 5px solid var(--rojo); 
@@ -137,15 +134,72 @@
             gap: 15px;
             padding: 15px;
         }
-        .card { background: var(--gris); border-radius: 12px; padding: 12px; text-align: center; border: 1px solid #222; }
-        .card img { width: 100%; aspect-ratio: 1/1; border-radius: 8px; object-fit: cover; margin-bottom: 10px; }
-        .precio { font-size: 1.2rem; color: var(--rojo); font-weight: bold; margin: 8px 0; }
+        .card { 
+            background: var(--gris); 
+            border-radius: 12px; 
+            padding: 15px; 
+            text-align: left; 
+            border: 1px solid #222; 
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .card .codigo-ref { font-size: 0.7rem; color: var(--rojo); font-weight: bold; }
+        .card .descripcion { font-size: 0.8rem; color: #aaa; margin: 5px 0; line-height: 1.2; }
+        
+        /* Contenedor de imagen con efecto lupa */
+        .img-zoom-cont {
+            position: relative;
+            cursor: zoom-in;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        .card img { 
+            width: 100%; 
+            aspect-ratio: 1/1; 
+            border-radius: 8px; 
+            object-fit: cover; 
+            transition: transform 0.3s;
+        }
+        .img-zoom-cont:hover img { transform: scale(1.1); }
 
-        /* RESPONSIVO */
+        .precio { font-size: 1.2rem; color: var(--blanco); font-weight: bold; margin: 8px 0; }
+        
+        /* Selector de cantidad y botón */
+        .compra-footer {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: auto;
+        }
+        .cant-input {
+            width: 50px;
+            padding: 8px;
+            background: #333;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        /* MODAL LUPA */
+        .modal-lupa {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-lupa img { max-width: 90%; max-height: 90%; border: 2px solid var(--rojo); border-radius: 10px; }
+        .close-lupa { position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; }
+
         @media (min-width: 768px) {
             .logo img { height: 110px; }
-            .grid-categorias { grid-template-columns: repeat(7, 1fr); }
-            .catalogo { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
+            .grid-categorias { grid-template-columns: repeat(8, 1fr); }
+            .catalogo { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
         }
 
         @media (max-width: 600px) {
@@ -154,7 +208,7 @@
             .logo { order: 1; }
             .acceso-mayorista { order: 2; align-items: center; }
             .logo img { height: 80px; }
-            .grid-categorias { grid-template-columns: repeat(2, 1fr); }
+            .grid-categorias { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
@@ -166,7 +220,7 @@
         </div>
 
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Buscar repuestos o accesorios..." onkeyup="buscarProducto()">
+            <input type="text" id="searchInput" placeholder="Buscar por nombre o referencia..." onkeyup="buscarProducto()">
         </div>
 
         <div class="acceso-mayorista">
@@ -213,8 +267,8 @@
                 <img src="https://cdn-icons-png.flaticon.com/512/2083/2083161.png" alt="Accesorios">
                 <span>Accesorios</span>
             </div>
-                 <div class="cat-card" onclick="filtrarCategoria('Luces')">
-                <img src="https://e7.pngegg.com/pngimages/893/652/png-clipart-headlamp-car-automotive-lighting-harley-davidson-car-headlamp-car.png" alt="luces">
+            <div class="cat-card" onclick="filtrarCategoria('Luces')">
+                <img src="https://cdn-icons-png.flaticon.com/512/385/385453.png" alt="luces">
                 <span>Luces</span>
             </div>
             <div class="cat-card" onclick="cargarProductos()">
@@ -226,6 +280,11 @@
 
     <h3 class="titulo-seccion">Catálogo de Productos</h3>
     <div class="catalogo" id="lista-productos"></div>
+
+    <div id="modalLupa" class="modal-lupa" onclick="cerrarLupa()">
+        <span class="close-lupa">&times;</span>
+        <img id="imgExpandida">
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
@@ -257,7 +316,7 @@
             const query = document.getElementById('searchInput').value.toLowerCase();
             const filtrados = productosCache.filter(p => 
                 p.nombre.toLowerCase().includes(query) || 
-                p.categoria.toLowerCase().includes(query)
+                (p.codigo && p.codigo.toLowerCase().includes(query))
             );
             renderizarHtml(filtrados);
         }
@@ -269,13 +328,30 @@
                 const precio = esMayorista ? prod.precio_mayorista : prod.precio_letal;
                 contenedor.innerHTML += `
                     <div class="card">
-                        <img src="${prod.imagen_url}" alt="${prod.nombre}">
+                        <span class="codigo-ref">REF: ${prod.codigo || '000'}</span>
+                        <div class="img-zoom-cont" onclick="abrirLupa('${prod.imagen_url}')">
+                            <img src="${prod.imagen_url}" alt="${prod.nombre}">
+                        </div>
                         <h4>${prod.nombre}</h4>
-                        <p class="precio">$${precio.toLocaleString()} ${esMayorista ? '<br><span style="font-size:0.6rem; background:#4ade80; color:black; padding:2px 5px; border-radius:3px;">PRECIO MAYORISTA</span>' : ''}</p>
-                        <button style="width:100%;" onclick="agregarAlCarrito('${prod.nombre}', ${precio})">WhatsApp</button>
+                        <p class="descripcion">${prod.descripcion || 'Repuesto de alta calidad para tu moto.'}</p>
+                        <p class="precio">$${precio.toLocaleString()} ${esMayorista ? '<br><span style="font-size:0.6rem; background:#4ade80; color:black; padding:2px 5px; border-radius:3px;">MAYORISTA</span>' : ''}</p>
+                        
+                        <div class="compra-footer">
+                            <input type="number" value="1" min="1" class="cant-input" id="cant-${prod.id}">
+                            <button style="flex:1;" onclick="agregarAlCarrito('${prod.nombre}', ${precio}, '${prod.id}')">🛒 Agregar</button>
+                        </div>
                     </div>
                 `;
             });
+        }
+
+        // FUNCIONES DE LUPA
+        function abrirLupa(url) {
+            document.getElementById('imgExpandida').src = url;
+            document.getElementById('modalLupa').style.display = 'flex';
+        }
+        function cerrarLupa() {
+            document.getElementById('modalLupa').style.display = 'none';
         }
 
         async function verificarPIN() {
@@ -288,9 +364,11 @@
             } else { alert("PIN Inválido"); }
         }
 
-        function agregarAlCarrito(nombre, precio) {
+        function agregarAlCarrito(nombre, precio, id) {
+            const cantidad = document.getElementById('cant-' + id).value;
             const tel = "573000000000"; 
-            const msg = `Hola Indian! Me interesa: ${nombre} ($${precio.toLocaleString()})`;
+            const total = precio * cantidad;
+            const msg = `¡Hola Indian! 👋 Me interesa este producto:\n\n📌 *${nombre}*\n🔢 Cantidad: ${cantidad}\n💰 Unitario: $${precio.toLocaleString()}\n💵 Total: $${total.toLocaleString()}`;
             window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`);
         }
 
