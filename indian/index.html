@@ -21,10 +21,11 @@
             color: var(--blanco);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
+            padding-bottom: 50px;
             overflow-x: hidden;
         }
 
-        /* HEADER */
+        /* HEADER RESPONSIVO */
         header {
             background: black;
             padding: 10px 20px;
@@ -36,73 +37,105 @@
             top: 0;
             z-index: 1000;
         }
-        .logo img { height: 50px; }
-        .acceso-mayorista { display: flex; gap: 8px; }
-        input { padding: 10px; border-radius: 5px; border: none; outline: none; }
+        .logo img { height: 45px; }
+        .acceso-mayorista { display: flex; gap: 5px; }
+        input { padding: 8px; border-radius: 5px; border: none; outline: none; width: 100px; font-size: 0.9rem; }
         button {
             background: var(--rojo);
             color: white;
             border: none;
-            padding: 10px 18px;
+            padding: 8px 12px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
+            font-size: 0.9rem;
         }
-        button:hover { background: #b31620; }
 
-        /* BANNER (SWIPER) */
-        .hero-swiper { width: 100%; height: 400px; margin-bottom: 30px; }
-        .hero-swiper img { width: 100%; height: 100%; object-fit: cover; }
+        /* BANNER DINÁMICO */
+        .hero-swiper { 
+            width: 100%; 
+            height: auto; 
+            aspect-ratio: 16 / 6; /* Proporción ideal para PC */
+            margin-bottom: 20px; 
+        }
+        .hero-swiper img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            object-position: center;
+        }
 
         /* CATEGORIAS */
-        .categorias-section { padding: 20px; }
+        .categorias-section { padding: 15px; }
         .titulo-seccion { 
             color: var(--rojo); 
             border-left: 5px solid var(--rojo); 
             padding-left: 10px; 
-            margin-bottom: 20px; 
+            margin-bottom: 15px; 
             text-transform: uppercase;
+            font-size: 1.1rem;
         }
         .grid-categorias {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
         }
         .cat-card {
             background: var(--gris);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 12px 5px;
             text-align: center;
             cursor: pointer;
             border: 1px solid #333;
             transition: 0.3s;
         }
-        .cat-card:hover { border-color: var(--rojo); transform: translateY(-5px); }
-        .cat-card img { width: 60px; margin-bottom: 10px; filter: invert(1); }
-        .cat-card span { display: block; font-weight: bold; font-size: 0.85rem; }
+        .cat-card img { width: 35px; margin-bottom: 8px; filter: invert(1); }
+        .cat-card span { display: block; font-weight: bold; font-size: 0.75rem; }
 
-        /* CATALOGO */
+        /* CATALOGO RESPONSIVO */
         .catalogo {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
-            padding: 20px;
+            grid-template-columns: repeat(2, 1fr); /* 2 productos por fila en móvil */
+            gap: 12px;
+            padding: 12px;
         }
         .card {
             background: var(--gris);
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: 10px;
+            padding: 10px;
             text-align: center;
             border: 1px solid #222;
-            transition: 0.3s;
         }
-        .card:hover { border-color: #444; }
-        .card img { width: 100%; border-radius: 10px; margin-bottom: 15px; height: 180px; object-fit: cover; }
-        .precio { font-size: 1.5rem; color: var(--rojo); font-weight: bold; margin: 10px 0; }
+        .card img { 
+            width: 100%; 
+            aspect-ratio: 1/1; 
+            border-radius: 8px; 
+            object-fit: cover; 
+            margin-bottom: 8px;
+        }
+        .card h4 { font-size: 0.9rem; margin: 5px 0; min-height: 35px; }
+        .precio { font-size: 1.1rem; color: var(--rojo); font-weight: bold; margin: 5px 0; }
         .tag-mayorista {
-            background: #4ade80; color: black; font-size: 0.65rem;
-            padding: 3px 7px; border-radius: 4px; vertical-align: middle;
+            background: #4ade80; color: black; font-size: 0.55rem;
+            padding: 2px 5px; border-radius: 3px; display: inline-block;
+        }
+
+        /* AJUSTES PARA PC (Pantallas grandes) */
+        @media (min-width: 768px) {
+            .logo img { height: 60px; }
+            input { width: 150px; }
+            .hero-swiper { aspect-ratio: 21 / 7; } /* Más alargado en PC */
+            .grid-categorias { grid-template-columns: repeat(5, 1fr); }
+            .catalogo { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; padding: 20px; }
+            .card h4 { font-size: 1.1rem; }
+            .precio { font-size: 1.4rem; }
+        }
+
+        /* AJUSTE PARA MÓVIL PEQUEÑO */
+        @media (max-width: 480px) {
+            header { padding: 10px; }
+            .hero-swiper { aspect-ratio: 4 / 3; height: 250px; } /* Más alto en móvil para que luzca el banner */
+            .acceso-mayorista button { padding: 8px; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -111,8 +144,8 @@
     <header>
         <div class="logo"><img src="logo.png" alt="Indian Power Bike"></div>
         <div class="acceso-mayorista">
-            <input type="password" id="pinInput" placeholder="PIN Mayorista">
-            <button onclick="verificarPIN()">Acceso</button>
+            <input type="password" id="pinInput" placeholder="PIN">
+            <button onclick="verificarPIN()">Entrar</button>
         </div>
     </header>
 
@@ -150,20 +183,19 @@
         </div>
     </section>
 
-    <h3 class="titulo-seccion" style="margin-left: 20px;">Catálogo de Repuestos</h3>
+    <h3 class="titulo-seccion" style="margin-left: 20px;">Catálogo</h3>
     <div class="catalogo" id="lista-productos">
         </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // CONFIGURACIÓN SUPABASE (Pon tus llaves aquí)
+        // CONFIGURACIÓN SUPABASE (No olvides poner tus llaves reales aquí)
         const SUPABASE_URL = 'https://TU_PROYECTO.supabase.co';
         const SUPABASE_KEY = 'TU_LLAVE_ANON_KEY';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let esMayorista = false;
 
-        // Inicializar Swiper
         const swiper = new Swiper('.hero-swiper', {
             loop: true,
             autoplay: { delay: 4000 },
@@ -178,10 +210,9 @@
                 contenedor.innerHTML += `
                     <div class="card">
                         <img src="${prod.imagen_url}" alt="${prod.nombre}">
-                        <h4 style="margin:0">${prod.nombre}</h4>
-                        <p style="color:gray; font-size:0.8rem">${prod.categoria}</p>
-                        <p class="precio">$${precio.toLocaleString()} ${esMayorista ? '<span class="tag-mayorista">MAYORISTA</span>' : ''}</p>
-                        <button onclick="agregarAlCarrito('${prod.nombre}', ${precio})">Pedir por WhatsApp</button>
+                        <h4>${prod.nombre}</h4>
+                        <p class="precio">$${precio.toLocaleString()} ${esMayorista ? '<br><span class="tag-mayorista">MAYORISTA</span>' : ''}</p>
+                        <button style="width:100%; font-size:0.8rem;" onclick="agregarAlCarrito('${prod.nombre}', ${precio})">WhatsApp</button>
                     </div>
                 `;
             });
@@ -208,8 +239,8 @@
         }
 
         function agregarAlCarrito(nombre, precio) {
-            const tel = "573000000000"; // Reemplaza con tu número real
-            const msg = `Hola Indian Power Bike! Me interesa: ${nombre} | Precio: $${precio.toLocaleString()}`;
+            const tel = "573000000000"; // Tu número aquí
+            const msg = `Hola Indian! Me interesa: ${nombre} ($${precio.toLocaleString()})`;
             window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`);
         }
 
