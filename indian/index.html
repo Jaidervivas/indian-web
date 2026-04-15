@@ -60,7 +60,6 @@
             outline: none;
             font-size: 1rem;
         }
-        .search-container input:focus { border-color: var(--rojo); }
 
         .acceso-mayorista { 
             display: flex; 
@@ -80,7 +79,6 @@
             border-radius: 5px; 
             border: none; 
             width: 90px; 
-            font-size: 0.9rem;
         }
 
         button {
@@ -91,9 +89,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
         }
-        button:hover { background: #b31621; }
 
         /* BANNER */
         .hero-swiper { width: 100%; height: auto; aspect-ratio: 16 / 6; margin-bottom: 20px; }
@@ -113,21 +109,11 @@
             text-align: center;
             cursor: pointer;
             border: 1px solid #333;
-            transition: 0.3s;
         }
-        .cat-card:hover { border-color: var(--rojo); transform: translateY(-3px); }
         .cat-card img { width: 40px; margin-bottom: 10px; filter: invert(1); }
         .cat-card span { display: block; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; }
 
-        /* CATALOGO Y TARJETAS DETALLADAS */
-        .titulo-seccion { 
-            color: var(--rojo); 
-            border-left: 5px solid var(--rojo); 
-            padding-left: 10px; 
-            margin: 30px 20px 15px; 
-            text-transform: uppercase;
-            font-size: 1.2rem;
-        }
+        /* CATALOGO */
         .catalogo {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -145,42 +131,20 @@
             gap: 8px;
         }
         .card .codigo-ref { font-size: 0.7rem; color: var(--rojo); font-weight: bold; }
-        .card .descripcion { font-size: 0.8rem; color: #aaa; margin: 5px 0; line-height: 1.2; }
+        .card .descripcion { font-size: 0.8rem; color: #aaa; }
         
-        /* Contenedor de imagen con efecto lupa */
         .img-zoom-cont {
             position: relative;
             cursor: zoom-in;
             overflow: hidden;
             border-radius: 8px;
         }
-        .card img { 
-            width: 100%; 
-            aspect-ratio: 1/1; 
-            border-radius: 8px; 
-            object-fit: cover; 
-            transition: transform 0.3s;
-        }
-        .img-zoom-cont:hover img { transform: scale(1.1); }
+        .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
 
-        .precio { font-size: 1.2rem; color: var(--blanco); font-weight: bold; margin: 8px 0; }
+        .precio { font-size: 1.2rem; color: var(--blanco); font-weight: bold; }
         
-        /* Selector de cantidad y botón */
-        .compra-footer {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-top: auto;
-        }
-        .cant-input {
-            width: 50px;
-            padding: 8px;
-            background: #333;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            text-align: center;
-        }
+        .compra-footer { display: flex; gap: 10px; align-items: center; margin-top: auto; }
+        .cant-input { width: 50px; padding: 8px; background: #333; color: white; border: none; border-radius: 5px; text-align: center; }
 
         /* MODAL LUPA */
         .modal-lupa {
@@ -199,14 +163,11 @@
         @media (min-width: 768px) {
             .logo img { height: 110px; }
             .grid-categorias { grid-template-columns: repeat(8, 1fr); }
-            .catalogo { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
+            .catalogo { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
         }
 
         @media (max-width: 600px) {
-            header { flex-direction: column; align-items: center; text-align: center; }
-            .search-container { order: 3; width: 100%; }
-            .logo { order: 1; }
-            .acceso-mayorista { order: 2; align-items: center; }
+            header { flex-direction: column; }
             .logo img { height: 80px; }
             .grid-categorias { grid-template-columns: repeat(3, 1fr); }
         }
@@ -215,14 +176,10 @@
 <body>
 
     <header>
-        <div class="logo">
-            <img src="logo.png" alt="Indian Power Bike">
-        </div>
-
+        <div class="logo"><img src="logo.png" alt="Indian Power Bike"></div>
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Buscar por nombre o referencia..." onkeyup="buscarProducto()">
         </div>
-
         <div class="acceso-mayorista">
             <span class="label-mayorista">Ingreso Mayoristas</span>
             <div class="inputs-mayorista">
@@ -241,84 +198,56 @@
     </div>
 
     <section class="categorias-section">
-        <h3 class="titulo-seccion">Categorías Rápidas</h3>
         <div class="grid-categorias">
-            <div class="cat-card" onclick="filtrarCategoria('Cascos')">
-                <img src="https://cdn-icons-png.flaticon.com/512/684/684829.png" alt="Cascos">
-                <span>Cascos</span>
-            </div>
-            <div class="cat-card" onclick="filtrarCategoria('Frenos')">
-                <img src="https://cdn-icons-png.flaticon.com/512/1533/1533166.png" alt="Frenos">
-                <span>Frenos</span>
-            </div>
-            <div class="cat-card" onclick="filtrarCategoria('Kit Arrastre')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3063/3063451.png" alt="Kit Arrastre">
-                <span>Kit Arrastre</span>
-            </div>
-            <div class="cat-card" onclick="filtrarCategoria('Llantas')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3714/3714324.png" alt="Llantas">
-                <span>Llantas</span>
-            </div>
-            <div class="cat-card" onclick="filtrarCategoria('Motor')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3063/3063383.png" alt="Motor">
-                <span>Motor</span>
-            </div>
-            <div class="cat-card" onclick="filtrarCategoria('Accesorios')">
-                <img src="https://cdn-icons-png.flaticon.com/512/2083/2083161.png" alt="Accesorios">
-                <span>Accesorios</span>
-            </div>
-            <div class="cat-card" onclick="filtrarCategoria('Luces')">
-                <img src="https://cdn-icons-png.flaticon.com/512/385/385453.png" alt="luces">
-                <span>Luces</span>
-            </div>
-            <div class="cat-card" onclick="cargarProductos()">
-                <img src="https://cdn-icons-png.flaticon.com/512/5110/5110785.png" alt="Todos">
-                <span>Ver Todo</span>
-            </div>
+            <div class="cat-card" onclick="filtrarCategoria('Cascos')"><span>Cascos</span></div>
+            <div class="cat-card" onclick="filtrarCategoria('Frenos')"><span>Frenos</span></div>
+            <div class="cat-card" onclick="filtrarCategoria('Kit Arrastre')"><span>Kit Arrastre</span></div>
+            <div class="cat-card" onclick="filtrarCategoria('Llantas')"><span>Llantas</span></div>
+            <div class="cat-card" onclick="filtrarCategoria('Motor')"><span>Motor</span></div>
+            <div class="cat-card" onclick="filtrarCategoria('Accesorios')"><span>Accesorios</span></div>
+            <div class="cat-card" onclick="filtrarCategoria('Luces')"><span>Luces</span></div>
+            <div class="cat-card" onclick="renderizarHtml(productosCache)"><span>Ver Todo</span></div>
         </div>
     </section>
 
-    <h3 class="titulo-seccion">Catálogo de Productos</h3>
     <div class="catalogo" id="lista-productos"></div>
 
-    <div id="modalLupa" class="modal-lupa" onclick="cerrarLupa()">
+    <div id="modalLupa" class="modal-lupa" onclick="this.style.display='none'">
         <span class="close-lupa">&times;</span>
         <img id="imgExpandida">
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        const SUPABASE_URL = 'https://TU_PROYECTO.supabase.co';
-        const SUPABASE_KEY = 'TU_LLAVE_ANON_KEY';
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // LISTA MANUAL DE PRODUCTOS (Agrégalos aquí)
+        const productosManuales = [
+            {
+                id: 1,
+                nombre: "Casco MT Revenge 2",
+                codigo: "CAS-001",
+                descripcion: "Certificación ECE de alta seguridad.",
+                categoria: "Cascos",
+                precio_letal: 350000,
+                precio_mayorista: 290000,
+                imagen_url: "https://via.placeholder.com/300"
+            },
+            {
+                id: 2,
+                nombre: "Pastillas de Freno Brembo",
+                codigo: "FRE-005",
+                descripcion: "Máxima potencia de frenado.",
+                categoria: "Frenos",
+                precio_letal: 85000,
+                precio_mayorista: 65000,
+                imagen_url: "https://via.placeholder.com/300"
+            }
+        ];
 
         let esMayorista = false;
-        let productosCache = [];
+        let productosCache = productosManuales; // Usamos la lista manual por ahora
 
-        const swiper = new Swiper('.hero-swiper', {
-            loop: true,
-            autoplay: { delay: 4000 },
-            pagination: { el: '.swiper-pagination', clickable: true },
-        });
-
-        async function cargarProductos() {
-            const { data } = await _supabase.from('productos').select('*');
-            productosCache = data || [];
+        function cargarProductos() {
             renderizarHtml(productosCache);
-        }
-
-        async function filtrarCategoria(cat) {
-            const { data } = await _supabase.from('productos').select('*').eq('categoria', cat);
-            renderizarHtml(data || []);
-        }
-
-        function buscarProducto() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtrados = productosCache.filter(p => 
-                p.nombre.toLowerCase().includes(query) || 
-                (p.codigo && p.codigo.toLowerCase().includes(query))
-            );
-            renderizarHtml(filtrados);
         }
 
         function renderizarHtml(data) {
@@ -328,14 +257,13 @@
                 const precio = esMayorista ? prod.precio_mayorista : prod.precio_letal;
                 contenedor.innerHTML += `
                     <div class="card">
-                        <span class="codigo-ref">REF: ${prod.codigo || '000'}</span>
+                        <span class="codigo-ref">REF: ${prod.codigo}</span>
                         <div class="img-zoom-cont" onclick="abrirLupa('${prod.imagen_url}')">
-                            <img src="${prod.imagen_url}" alt="${prod.nombre}">
+                            <img src="${prod.imagen_url}">
                         </div>
                         <h4>${prod.nombre}</h4>
-                        <p class="descripcion">${prod.descripcion || 'Repuesto de alta calidad para tu moto.'}</p>
-                        <p class="precio">$${precio.toLocaleString()} ${esMayorista ? '<br><span style="font-size:0.6rem; background:#4ade80; color:black; padding:2px 5px; border-radius:3px;">MAYORISTA</span>' : ''}</p>
-                        
+                        <p class="descripcion">${prod.descripcion}</p>
+                        <p class="precio">$${precio.toLocaleString()}</p>
                         <div class="compra-footer">
                             <input type="number" value="1" min="1" class="cant-input" id="cant-${prod.id}">
                             <button style="flex:1;" onclick="agregarAlCarrito('${prod.nombre}', ${precio}, '${prod.id}')">🛒 Agregar</button>
@@ -345,31 +273,36 @@
             });
         }
 
-        // FUNCIONES DE LUPA
         function abrirLupa(url) {
             document.getElementById('imgExpandida').src = url;
             document.getElementById('modalLupa').style.display = 'flex';
         }
-        function cerrarLupa() {
-            document.getElementById('modalLupa').style.display = 'none';
+
+        function filtrarCategoria(cat) {
+            const filtrados = productosCache.filter(p => p.categoria === cat);
+            renderizarHtml(filtrados);
         }
 
-        async function verificarPIN() {
+        function buscarProducto() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtrados = productosCache.filter(p => p.nombre.toLowerCase().includes(query) || p.codigo.toLowerCase().includes(query));
+            renderizarHtml(filtrados);
+        }
+
+        function verificarPIN() {
             const pin = document.getElementById('pinInput').value;
-            const { data } = await _supabase.from('acceso_mayoristas').select('*').eq('pin', pin);
-            if (data && data.length > 0) {
+            if (pin === "1234") { // PIN de prueba manual
                 esMayorista = true;
-                alert("Acceso Mayorista Activado para: " + data[0].nombre_cliente);
+                alert("Modo Mayorista Activado");
                 renderizarHtml(productosCache);
-            } else { alert("PIN Inválido"); }
+            } else { alert("PIN Incorrecto"); }
         }
 
         function agregarAlCarrito(nombre, precio, id) {
             const cantidad = document.getElementById('cant-' + id).value;
-            const tel = "573000000000"; 
             const total = precio * cantidad;
-            const msg = `¡Hola Indian! 👋 Me interesa este producto:\n\n📌 *${nombre}*\n🔢 Cantidad: ${cantidad}\n💰 Unitario: $${precio.toLocaleString()}\n💵 Total: $${total.toLocaleString()}`;
-            window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`);
+            const msg = `¡Hola Indian! 👋\n📌 *${nombre}*\n🔢 Cantidad: ${cantidad}\n💵 Total: $${total.toLocaleString()}`;
+            window.open(`https://wa.me/573000000000?text=${encodeURIComponent(msg)}`);
         }
 
         cargarProductos();
