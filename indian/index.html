@@ -4,144 +4,212 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Indian Power Bike | Repuestos</title>
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
     <style>
         :root {
             --rojo: #E31D2B;
             --negro: #0a0a0a;
             --gris: #1a1a1a;
+            --blanco: #ffffff;
         }
+
         body {
             background-color: var(--negro);
-            color: white;
-            font-family: Arial, sans-serif;
+            color: var(--blanco);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
+            overflow-x: hidden;
         }
+
+        /* HEADER */
         header {
             background: black;
-            padding: 15px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 3px solid var(--rojo);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
-        .logo img { height: 60px; }
-        .acceso-mayorista {
-            display: flex;
-            gap: 10px;
-        }
-        input {
-            padding: 8px;
-            border-radius: 5px;
-            border: none;
-        }
+        .logo img { height: 50px; }
+        .acceso-mayorista { display: flex; gap: 8px; }
+        input { padding: 10px; border-radius: 5px; border: none; outline: none; }
         button {
             background: var(--rojo);
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 18px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
+            transition: 0.3s;
         }
+        button:hover { background: #b31620; }
+
+        /* BANNER (SWIPER) */
+        .hero-swiper { width: 100%; height: 400px; margin-bottom: 30px; }
+        .hero-swiper img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* CATEGORIAS */
+        .categorias-section { padding: 20px; }
+        .titulo-seccion { 
+            color: var(--rojo); 
+            border-left: 5px solid var(--rojo); 
+            padding-left: 10px; 
+            margin-bottom: 20px; 
+            text-transform: uppercase;
+        }
+        .grid-categorias {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+        .cat-card {
+            background: var(--gris);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #333;
+            transition: 0.3s;
+        }
+        .cat-card:hover { border-color: var(--rojo); transform: translateY(-5px); }
+        .cat-card img { width: 60px; margin-bottom: 10px; filter: invert(1); }
+        .cat-card span { display: block; font-weight: bold; font-size: 0.85rem; }
+
+        /* CATALOGO */
         .catalogo {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 20px;
             padding: 20px;
         }
         .card {
             background: var(--gris);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 15px;
             text-align: center;
-            border: 1px solid #333;
+            border: 1px solid #222;
+            transition: 0.3s;
         }
-        .card img { width: 100%; border-radius: 8px; }
-        .precio {
-            font-size: 1.4rem;
-            color: var(--rojo);
-            margin: 10px 0;
-        }
+        .card:hover { border-color: #444; }
+        .card img { width: 100%; border-radius: 10px; margin-bottom: 15px; height: 180px; object-fit: cover; }
+        .precio { font-size: 1.5rem; color: var(--rojo); font-weight: bold; margin: 10px 0; }
         .tag-mayorista {
-            background: #4ade80;
-            color: black;
-            font-size: 0.7rem;
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-weight: bold;
+            background: #4ade80; color: black; font-size: 0.65rem;
+            padding: 3px 7px; border-radius: 4px; vertical-align: middle;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">
-            <img src="logo.png" alt="Indian Power Bike">
-        </div>
+        <div class="logo"><img src="logo.png" alt="Indian Power Bike"></div>
         <div class="acceso-mayorista">
             <input type="password" id="pinInput" placeholder="PIN Mayorista">
             <button onclick="verificarPIN()">Acceso</button>
         </div>
     </header>
 
-    <h2 style="text-align: center; margin-top: 20px;">NUESTRO CATÁLOGO</h2>
-    
+    <div class="swiper hero-swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1558981403-c5f91cbba527?q=80&w=1200" alt="Promo 1"></div>
+            <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1611637576109-b6f76185ec9b?q=80&w=1200" alt="Promo 2"></div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <section class="categorias-section">
+        <h3 class="titulo-seccion">Ofertas sólo para ti</h3>
+        <div class="grid-categorias">
+            <div class="cat-card" onclick="filtrarCategoria('Baterias')">
+                <img src="https://cdn-icons-png.flaticon.com/512/2083/2083161.png" alt="Baterías">
+                <span>BATERÍAS</span>
+            </div>
+            <div class="cat-card" onclick="filtrarCategoria('Frenos')">
+                <img src="https://cdn-icons-png.flaticon.com/512/1533/1533166.png" alt="Frenos">
+                <span>FRENOS</span>
+            </div>
+            <div class="cat-card" onclick="filtrarCategoria('Cilindros')">
+                <img src="https://cdn-icons-png.flaticon.com/512/3063/3063383.png" alt="Cilindros">
+                <span>CILINDROS</span>
+            </div>
+            <div class="cat-card" onclick="filtrarCategoria('Llantas')">
+                <img src="https://cdn-icons-png.flaticon.com/512/3714/3714324.png" alt="Llantas">
+                <span>LLANTAS</span>
+            </div>
+            <div class="cat-card" onclick="cargarProductos()">
+                <img src="https://cdn-icons-png.flaticon.com/512/5110/5110785.png" alt="Todos">
+                <span>TODO</span>
+            </div>
+        </div>
+    </section>
+
+    <h3 class="titulo-seccion" style="margin-left: 20px;">Catálogo de Repuestos</h3>
     <div class="catalogo" id="lista-productos">
         </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // CONFIGURACIÓN DE TU SUPABASE
+        // CONFIGURACIÓN SUPABASE (Pon tus llaves aquí)
         const SUPABASE_URL = 'https://TU_PROYECTO.supabase.co';
         const SUPABASE_KEY = 'TU_LLAVE_ANON_KEY';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let esMayorista = false;
 
-        // Función para cargar productos
-        async function cargarProductos() {
-            const { data, error } = await _supabase.from('productos').select('*');
-            if (error) console.log(error);
+        // Inicializar Swiper
+        const swiper = new Swiper('.hero-swiper', {
+            loop: true,
+            autoplay: { delay: 4000 },
+            pagination: { el: '.swiper-pagination', clickable: true },
+        });
 
+        async function renderizarHtml(data) {
             const contenedor = document.getElementById('lista-productos');
             contenedor.innerHTML = '';
-
             data.forEach(prod => {
-                const precioMostrar = esMayorista ? prod.precio_mayorista : prod.precio_letal;
+                const precio = esMayorista ? prod.precio_mayorista : prod.precio_letal;
                 contenedor.innerHTML += `
                     <div class="card">
                         <img src="${prod.imagen_url}" alt="${prod.nombre}">
-                        <h3>${prod.nombre}</h3>
-                        <p class="precio">$${precioMostrar.toLocaleString()} 
-                            ${esMayorista ? '<span class="tag-mayorista">MAYORISTA</span>' : ''}
-                        </p>
-                        <button onclick="agregarAlCarrito('${prod.nombre}', ${precioMostrar})">Pedir por WhatsApp</button>
+                        <h4 style="margin:0">${prod.nombre}</h4>
+                        <p style="color:gray; font-size:0.8rem">${prod.categoria}</p>
+                        <p class="precio">$${precio.toLocaleString()} ${esMayorista ? '<span class="tag-mayorista">MAYORISTA</span>' : ''}</p>
+                        <button onclick="agregarAlCarrito('${prod.nombre}', ${precio})">Pedir por WhatsApp</button>
                     </div>
                 `;
             });
         }
 
-        // Función para validar el PIN
+        async function cargarProductos() {
+            const { data } = await _supabase.from('productos').select('*');
+            renderizarHtml(data);
+        }
+
+        async function filtrarCategoria(cat) {
+            const { data } = await _supabase.from('productos').select('*').eq('categoria', cat);
+            renderizarHtml(data);
+        }
+
         async function verificarPIN() {
             const pin = document.getElementById('pinInput').value;
             const { data } = await _supabase.from('acceso_mayoristas').select('*').eq('pin', pin);
-
             if (data && data.length > 0) {
                 esMayorista = true;
-                alert("¡Bienvenido, Distribuidor " + data[0].nombre_cliente + "!");
+                alert("Acceso Mayorista: " + data[0].nombre_cliente);
                 cargarProductos();
-            } else {
-                alert("PIN incorrecto");
-            }
+            } else { alert("PIN Inválido"); }
         }
 
-        // Función básica de WhatsApp
         function agregarAlCarrito(nombre, precio) {
-            const tel = "573000000000"; // TU NÚMERO
-            const msg = `Hola Indian Power Bike, me interesa el producto: ${nombre} con precio: $${precio}`;
+            const tel = "573000000000"; // Reemplaza con tu número real
+            const msg = `Hola Indian Power Bike! Me interesa: ${nombre} | Precio: $${precio.toLocaleString()}`;
             window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`);
         }
 
