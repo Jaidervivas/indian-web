@@ -25,46 +25,36 @@
             overflow-x: hidden;
         }
 
-        /* HEADER REESTRUCTURADO */
+        /* HEADER AJUSTADO (NO FIJO) */
         header {
             background: black;
-            padding: 15px 20px;
-            display: flex;
-            flex-direction: column; 
-            align-items: center;
-            border-bottom: 3px solid var(--rojo);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            gap: 15px;
-        }
-
-        .logo-central {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-        .logo-central img { 
-            height: 95px; 
-            transition: 0.3s;
-        }
-
-        .header-utils {
-            width: 100%;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
-            max-width: 1200px;
+            align-items: center;
+            border-bottom: 3px solid var(--rojo);
+            position: relative; /* Cambiado de sticky a relative para que suba con el scroll */
             gap: 20px;
+            flex-wrap: wrap;
         }
 
+        /* Logo a la izquierda con tamaño destacado */
+        .logo img { 
+            height: 90px; 
+            transition: 0.3s;
+            display: block;
+        }
+
+        /* Buscador en el centro */
         .search-container {
             flex: 1;
-            max-width: 400px;
+            max-width: 500px;
+            display: flex;
+            justify-content: center;
         }
         .search-container input {
             width: 100%;
-            padding: 10px 18px;
+            padding: 12px 20px;
             border-radius: 25px;
             border: 1px solid #333;
             background: #111;
@@ -72,7 +62,9 @@
             outline: none;
             font-size: 1rem;
         }
+        .search-container input:focus { border-color: var(--rojo); }
 
+        /* Acceso Mayorista a la derecha */
         .acceso-mayorista { 
             display: flex; 
             flex-direction: column; 
@@ -85,92 +77,103 @@
             font-weight: bold;
             text-transform: uppercase;
         }
-        .inputs-mayorista { display: flex; gap: 5px; }
-        .pin-input { padding: 8px; border-radius: 5px; border: none; width: 80px; }
+        .inputs-mayorista { display: flex; gap: 8px; }
+        .pin-input { 
+            padding: 10px; 
+            border-radius: 5px; 
+            border: none; 
+            width: 90px; 
+            font-size: 0.9rem;
+        }
 
         button {
             background: var(--rojo);
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 18px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
+            transition: 0.3s;
         }
+        button:hover { background: #b31621; }
 
         /* BANNER */
         .hero-swiper { width: 100%; height: auto; aspect-ratio: 16 / 6; margin-bottom: 20px; }
         .hero-swiper img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* SECCIÓN DE FILTROS (LAS TABLAS DE ABAJO) */
+        /* SECCIÓN DE FILTROS */
         .categorias-section { padding: 15px; max-width: 1200px; margin: 0 auto; }
         .grid-categorias {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 por fila en móvil */
-            gap: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
         }
         .cat-card {
             background: var(--gris);
-            border-radius: 10px;
-            padding: 15px 5px;
+            border-radius: 12px;
+            padding: 18px 5px;
             text-align: center;
             cursor: pointer;
             border: 1px solid #333;
             transition: 0.3s;
         }
         .cat-card:hover { border-color: var(--rojo); transform: translateY(-3px); }
-        .cat-card img { width: 35px; margin-bottom: 8px; filter: invert(1); }
-        .cat-card span { display: block; font-weight: bold; font-size: 0.7rem; text-transform: uppercase; }
+        .cat-card img { width: 40px; margin-bottom: 10px; filter: invert(1); }
+        .cat-card span { display: block; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; }
 
         /* CATALOGO */
         .titulo-seccion { 
             color: var(--rojo); 
             border-left: 5px solid var(--rojo); 
             padding-left: 10px; 
-            margin: 25px 20px 15px; 
+            margin: 30px 20px 15px; 
             text-transform: uppercase;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
         .catalogo {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            padding: 12px;
+            gap: 15px;
+            padding: 15px;
         }
-        .card { background: var(--gris); border-radius: 10px; padding: 10px; text-align: center; border: 1px solid #222; }
-        .card img { width: 100%; aspect-ratio: 1/1; border-radius: 8px; object-fit: cover; }
-        .precio { font-size: 1.1rem; color: var(--rojo); font-weight: bold; margin: 5px 0; }
+        .card { background: var(--gris); border-radius: 12px; padding: 12px; text-align: center; border: 1px solid #222; }
+        .card img { width: 100%; aspect-ratio: 1/1; border-radius: 8px; object-fit: cover; margin-bottom: 10px; }
+        .precio { font-size: 1.2rem; color: var(--rojo); font-weight: bold; margin: 8px 0; }
 
         /* RESPONSIVO */
         @media (min-width: 768px) {
-            .logo-central img { height: 130px; }
-            .grid-categorias { grid-template-columns: repeat(7, 1fr); } /* Todos en línea en PC */
-            .catalogo { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+            .logo img { height: 110px; }
+            .grid-categorias { grid-template-columns: repeat(7, 1fr); }
+            .catalogo { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
         }
 
-        @media (max-width: 480px) {
-            .logo-central img { height: 80px; }
-            .header-utils { flex-direction: column; align-items: center; }
-            .acceso-mayorista { align-items: center; }
+        @media (max-width: 600px) {
+            header { flex-direction: column; align-items: center; text-align: center; }
+            .search-container { order: 3; width: 100%; }
+            .logo { order: 1; }
+            .acceso-mayorista { order: 2; align-items: center; }
+            .logo img { height: 80px; }
+            .grid-categorias { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-central">
+        <div class="logo">
             <img src="logo.png" alt="Indian Power Bike">
         </div>
-        <div class="header-utils">
-            <div class="search-container">
-                <input type="text" id="searchInput" placeholder="¿Qué repuesto buscas?" onkeyup="buscarProducto()">
-            </div>
-            <div class="acceso-mayorista">
-                <span class="label-mayorista">Ingreso Mayoristas</span>
-                <div class="inputs-mayorista">
-                    <input type="password" id="pinInput" class="pin-input" placeholder="PIN">
-                    <button onclick="verificarPIN()">Entrar</button>
-                </div>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Buscar repuestos o accesorios..." onkeyup="buscarProducto()">
+        </div>
+
+        <div class="acceso-mayorista">
+            <span class="label-mayorista">Ingreso Mayoristas</span>
+            <div class="inputs-mayorista">
+                <input type="password" id="pinInput" class="pin-input" placeholder="PIN">
+                <button onclick="verificarPIN()">Entrar</button>
             </div>
         </div>
     </header>
@@ -184,7 +187,7 @@
     </div>
 
     <section class="categorias-section">
-        <h3 class="titulo-seccion">Categorías Principales</h3>
+        <h3 class="titulo-seccion">Categorías Rápidas</h3>
         <div class="grid-categorias">
             <div class="cat-card" onclick="filtrarCategoria('Cascos')">
                 <img src="https://cdn-icons-png.flaticon.com/512/684/684829.png" alt="Cascos">
@@ -217,7 +220,7 @@
         </div>
     </section>
 
-    <h3 class="titulo-seccion">Catálogo General</h3>
+    <h3 class="titulo-seccion">Catálogo de Productos</h3>
     <div class="catalogo" id="lista-productos"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -264,7 +267,7 @@
                     <div class="card">
                         <img src="${prod.imagen_url}" alt="${prod.nombre}">
                         <h4>${prod.nombre}</h4>
-                        <p class="precio">$${precio.toLocaleString()} ${esMayorista ? '<br><span style="font-size:0.6rem; background:#4ade80; color:black; padding:2px 5px; border-radius:3px;">MAYORISTA</span>' : ''}</p>
+                        <p class="precio">$${precio.toLocaleString()} ${esMayorista ? '<br><span style="font-size:0.6rem; background:#4ade80; color:black; padding:2px 5px; border-radius:3px;">PRECIO MAYORISTA</span>' : ''}</p>
                         <button style="width:100%;" onclick="agregarAlCarrito('${prod.nombre}', ${precio})">WhatsApp</button>
                     </div>
                 `;
@@ -276,9 +279,9 @@
             const { data } = await _supabase.from('acceso_mayoristas').select('*').eq('pin', pin);
             if (data && data.length > 0) {
                 esMayorista = true;
-                alert("Acceso Mayorista Activado");
+                alert("Acceso Mayorista Activado para: " + data[0].nombre_cliente);
                 renderizarHtml(productosCache);
-            } else { alert("PIN Incorrecto"); }
+            } else { alert("PIN Inválido"); }
         }
 
         function agregarAlCarrito(nombre, precio) {
