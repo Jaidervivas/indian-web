@@ -25,6 +25,7 @@
             overflow-x: hidden;
         }
 
+        /* HEADER */
         header {
             background: black;
             padding: 20px;
@@ -91,22 +92,26 @@
             font-weight: bold;
         }
 
-        /* --- ACTUALIZACIÓN BANNER AUTO-AJUSTABLE --- */
+        /* --- ACTUALIZACIÓN BANNER COMPLETO (PC Y MÓVIL) --- */
         .hero-swiper { 
             width: 100%; 
-            height: auto; 
+            height: auto; /* Permite que la altura crezca con la imagen */
             margin-bottom: 20px; 
             overflow: hidden;
+            background: #000;
         }
         .hero-swiper .swiper-slide img { 
             width: 100%; 
             height: auto; 
             display: block;
-            object-fit: contain; /* Muestra la imagen completa sin mocha */
+            object-fit: contain; /* Garantiza que se vea TODA la imagen sin cortes */
         }
+        
+        /* Ajuste para que los puntos de navegación se vean sobre el negro si es necesario */
         .swiper-pagination-bullet { background: #fff; opacity: 0.5; }
         .swiper-pagination-bullet-active { background: var(--rojo); opacity: 1; }
 
+        /* SECCIÓN DE FILTROS */
         .categorias-section { padding: 15px; max-width: 1200px; margin: 0 auto; }
         .grid-categorias {
             display: grid;
@@ -125,6 +130,7 @@
         .cat-card:hover { border-color: var(--rojo); }
         .cat-card span { display: block; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; }
 
+        /* CATALOGO */
         .catalogo {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -157,6 +163,7 @@
         .compra-footer { display: flex; gap: 10px; align-items: center; margin-top: auto; }
         .cant-input { width: 50px; padding: 8px; background: #333; color: white; border: none; border-radius: 5px; text-align: center; }
 
+        /* MODAL LUPA */
         .modal-lupa {
             display: none;
             position: fixed;
@@ -255,10 +262,10 @@
         let esMayorista = false;
         let productosCache = productosManuales;
 
-        // --- ACTUALIZACIÓN SWIPER CON AUTOHEIGHT ---
+        // --- ACTUALIZACIÓN SWIPER REFORZADA ---
         const swiper = new Swiper('.hero-swiper', {
             loop: true,
-            autoHeight: true, // Ajusta la altura del banner a cada imagen
+            autoHeight: true, // Ajusta la altura del banner a cada imagen automáticamente
             autoplay: {
                 delay: 4000,
                 disableOnInteraction: false,
@@ -267,8 +274,10 @@
                 el: '.swiper-pagination',
                 clickable: true,
             },
+            // Asegura que Swiper se entere de cambios en el DOM o tamaño de pantalla
             observer: true,
             observeParents: true,
+            watchOverflow: true,
         });
 
         function renderizarHtml(data) {
